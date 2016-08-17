@@ -34,15 +34,22 @@ public class KinesisSplitter {
         String awsSecretKey = null;
         String shardToSplit = null;
 
-        if (args.length == 4) {
+        if (args.length >= 3) {
             awsAccessKey = args[1];
             awsSecretKey = args[2];
+        }
+
+        if (args.length >= 4) {
             shardToSplit = args[3];
         }
 
-        if(shardToSplit == null || "".equalsIgnoreCase(shardToSplit)){
+        if (shardToSplit == null) {
+            System.out.println("No shardToSplit parameter provided. Will split all shards");
+        } else if ("".equalsIgnoreCase(shardToSplit)) {
             System.out.println("Invalid shard id provided.");
             System.exit(-1);
+        } else {
+            System.out.printf("Will split on shardId=" + shardToSplit);
         }
 
         try {
@@ -65,9 +72,10 @@ public class KinesisSplitter {
         log.log(Level.INFO, "Splitting the Stream: [{0}], there are [{1}] shards to split.",
                 new Object[]{streamName, shards.size()});
         for (final Shard shard : shards) {
+            System.out.println("Reading shardId=" + shard.getShardId());
 
-            if(!shardToSplit.equalsIgnoreCase(shard.getShardId())){
-                System.out.println("Ignoring this shard "+ shard.getShardId());
+            if (shardToSplit != null && !shardToSplit.equalsIgnoreCase(shard.getShardId())) {
+                System.out.println("Ignoring this shard " + shard.getShardId());
                 continue;
             }
 

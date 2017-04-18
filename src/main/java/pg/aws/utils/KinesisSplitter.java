@@ -49,11 +49,11 @@ public class KinesisSplitter {
             System.out.println("Invalid shard id provided.");
             System.exit(-1);
         } else {
-            System.out.printf("Will split on shardId=" + shardToSplit);
+            System.out.println("Will split on shardId=" + shardToSplit);
         }
 
         try {
-            new KinesisSplitter().split(streamName, awsAccessKey, awsSecretKey, 30, shardToSplit);
+            new KinesisSplitter().split(streamName, awsAccessKey, awsSecretKey, 35, shardToSplit);
         } catch (final InterruptedException | AmazonClientException ex) {
             log.log(Level.SEVERE, "Error while splitting the stream: " + streamName, ex);
         }

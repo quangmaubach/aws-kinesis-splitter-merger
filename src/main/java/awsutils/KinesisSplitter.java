@@ -1,4 +1,4 @@
-package pg.aws.utils;
+package awsutils;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
